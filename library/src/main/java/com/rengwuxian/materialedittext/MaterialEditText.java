@@ -315,6 +315,8 @@ public class MaterialEditText extends AppCompatEditText {
   private List<METValidator> validators;
   private METLengthChecker lengthChecker;
 
+  private String mPostFix = null;
+
   public MaterialEditText(Context context) {
     super(context);
     init(context, null);
@@ -520,6 +522,10 @@ public class MaterialEditText extends AppCompatEditText {
   public void setIconRight(Bitmap bitmap) {
     iconRightBitmaps = generateIconBitmaps(bitmap);
     initPadding();
+  }
+
+  public void setPostFix(String postfix) {
+    mPostFix = postfix;
   }
 
   public boolean isShowClearButton() {
@@ -808,6 +814,8 @@ public class MaterialEditText extends AppCompatEditText {
     }
   }
 
+
+
   /**
    * @return True, if adjustments were made that require the view to be invalidated.
    */
@@ -876,7 +884,7 @@ public class MaterialEditText extends AppCompatEditText {
       @Override
       public void afterTextChanged(Editable s) {
         if (floatingLabelEnabled) {
-          if (s.length() == 0) {
+          if (s.length() == 0 || (mPostFix != null) && s.length() == mPostFix.length()) {
             if (floatingLabelShown) {
               floatingLabelShown = false;
               getLabelAnimator().reverse();
@@ -1326,7 +1334,7 @@ public class MaterialEditText extends AppCompatEditText {
         paint.setColor(primaryColor);
         canvas.drawRect(startX, lineStartY, endX, lineStartY + getPixel(2), paint);
       } else { // normal
-        paint.setColor(underlineColor != -1 ? underlineColor : baseColor & 0x00ffffff | 0x1E000000);
+        paint.setColor(underlineColor != -1 ? underlineColor : baseColor & 0x00ffffff | 0x44000000);
         canvas.drawRect(startX, lineStartY, endX, lineStartY + getPixel(1), paint);
       }
     }
@@ -1380,7 +1388,8 @@ public class MaterialEditText extends AppCompatEditText {
       int floatingLabelStartY = (int) (innerPaddingTop + floatingLabelTextSize + floatingLabelPadding - distance * (floatingLabelAlwaysShown ? 1 : floatingLabelFraction) + getScrollY());
 
       // calculate the alpha
-      int alpha = ((int) ((floatingLabelAlwaysShown ? 1 : floatingLabelFraction) * 0xff * (0.74f * focusFraction * (isEnabled() ? 1 : 0) + 0.26f) * (floatingLabelTextColor != -1 ? 1 : Color.alpha(floatingLabelTextColor) / 256f)));
+      int alpha = ((int) ((floatingLabelAlwaysShown ? 1 : floatingLabelFraction) * 0xff * (0.26f * focusFraction * (isEnabled() ? 1 : 0) + 0.74f) *
+              (floatingLabelTextColor != -1 ? 1 : Color.alpha(floatingLabelTextColor) / 256f)));
       textPaint.setAlpha(alpha);
 
       // draw the floating label
