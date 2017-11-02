@@ -25,7 +25,7 @@
     <attr name="met_helperText" format="string" />
     <!-- Helper text color -->
     <attr name="met_helperTextColor" format="color" />
-    <!-- Font of the paint used to draw accent texts -->
+    <!-- Font of gradientPaintaint used to draw accent texts -->
     <attr name="met_accentTypeface" format="string" />
     <!-- Font used on view -->
     <attr name="met_typeface" format="string" />
